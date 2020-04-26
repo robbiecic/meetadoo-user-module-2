@@ -13,14 +13,14 @@ class AWS:
         self.aws_access_key_id = self.data['aws_access_key_id']
         self.aws_secret_access_key = self.data['aws_secret_access_key']
 
-    def create_ses_client():
+    def create_ses_client(self):
         return boto3.client('ses', region_name=self.aws_region_name, aws_access_key_id=self.aws_access_key_id,
                             aws_secret_access_key=self.aws_secret_access_key)
 
-    def create_dynamodb_client():
+    def create_dynamodb_client(self):
         return boto3.client('dynamodb', region_name=self.aws_region_name, aws_access_key_id=self.aws_access_key_id,
                             aws_secret_access_key=self.aws_secret_access_key)
 
-    def create_dynamodb_resource():
+    def create_dynamodb_resource(self):
         return boto3.resource('dynamodb', region_name=self.aws_region_name, aws_access_key_id=self.aws_access_key_id,
                               aws_secret_access_key=self.aws_secret_access_key)

@@ -1,6 +1,6 @@
 import json
 import datetime
-from aws import AWS
+from classes.aws import AWS
 
 
 class User:
