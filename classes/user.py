@@ -40,8 +40,8 @@ class User:
                 return_body["firstname"] = user_details['first_name']['S']
                 return_body["surname"] = user_details['surname']['S']
                 return_body["email"] = email
-                cookie = self.__set_cookie2(encoded_jwt)
-                return {'cookie': cookie, 'statusCode': 200, 'response': str(return_body)}
+                cookie = self.__set_cookie(encoded_jwt)
+                return {'cookie': cookie, 'statusCode': 200, 'response': return_body}
             else:
                 return self.__custom_400('PASSWORD DID NOT MATCH')
 
@@ -59,7 +59,7 @@ class User:
         except:
             return 0
 
-    def __set_cookie2(self, jwt):
+    def __set_cookie(self, jwt):
         # Delete the cookie after 1 day
         expires = (datetime.utcnow() +
                    timedelta(seconds=60 * 60 * 24)).strftime("%a, %d %b %Y %H:%MM:%S GMT")
@@ -72,18 +72,6 @@ class User:
         cookie_object['httpOnly'] = 'true'
         cookie_object['secure'] = 'true'
         return cookie_object
-
-    def __set_cookie(self, jwt):
-        # Delete the cookie after 1 day
-        expires = (datetime.utcnow() +
-                   timedelta(seconds=60 * 60 * 24)).strftime("%a, %d %b %Y %H:%MM:%S GMT")
-        # Will remove HttpOnly and see if that works
-        # Will take out secure for now, doesn't work in dev
-        cookie_string = 'jwt=' + \
-            str(jwt) + ';  expires=' + \
-            str(expires) + \
-            "; Path=/; Max-Age=3600; Domain=www.meetadoo.com; HttpOnly; Secure"
-        return cookie_string
 
     def __custom_400(self, message):
         return {'statusCode': 400, 'response': message}

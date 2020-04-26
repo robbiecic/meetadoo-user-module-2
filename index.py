@@ -11,8 +11,12 @@ def hello_world():
 
 @app.route('/login', methods=['POST'])
 def login():
-    user_object = User(request.json['data'])
-    result = user_object.login()
+    if 'data' in request.json:
+        user_object = User(request.json['data'])
+        result = user_object.login()
+    else:
+        return 'Poorly formed body', 400
+
     if result['statusCode'] == 200:
         resp = make_response(result['response'])
         cookie = result['cookie']
