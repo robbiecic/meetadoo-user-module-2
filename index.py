@@ -1,10 +1,10 @@
 from flask import Flask, request, make_response
-from classes.user import User
 import json
-# from flask_apispec import use_kwargs, marshal_with
+from flask_apispec import FlaskApiSpec, use_kwargs, marshal_with
+from classes.user import User
 from models.LoginSchema import LoginSchema, LoginResponseSchema
 from models.ErrorSchema import ErrorSchema
-from flask_apispec import FlaskApiSpec, use_kwargs, marshal_with
+
 
 app = Flask(__name__)
 
