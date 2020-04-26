@@ -11,7 +11,8 @@ class User:
         with open('config.json') as json_file:
             self.data = json.load(json_file)
         # Create dynamoDB resource
-        self.dynamodb_client = AWS.create_dynamodb_client()
+        aws_object = AWS()
+        self.dynamodb_client = aws_object.create_dynamodb_client()
 
     #########################################################################################################
     # Public method declarations
@@ -22,7 +23,7 @@ class User:
         email = self.body['email']
         password = self.body['password'].encode('utf-8')
         # Check if user exists first
-        user_details = self.return_user(email)
+        user_details = self.__return_user(email)
         if user_details == 0:
             return self.custom_400('ERROR: User not found')
         else:
