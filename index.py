@@ -14,7 +14,6 @@ def hello_world():
     return 'Hello, World!'
 
 
-# @marshal_with -> response marshalling behavior
 @app.route('/login', methods=['POST'])
 @use_kwargs(LoginSchema)
 @marshal_with(LoginResponseSchema, code=200)
@@ -27,8 +26,27 @@ def login(**kwargs):
         return 'Poorly formed body', 400
 
     if result['statusCode'] == 200:
-        # response = LoginResponseSchema(
-        #     firstname=result['response']['firstname'], surname=result['response']['surname'], email=result['response']['email'])
+        resp = make_response(result['response'])
+        cookie = result['cookie']
+        resp.set_cookie(cookie['name'],
+                        cookie['value'], domain=cookie['domain'], expires=cookie['expires'], secure=cookie['secure'], httponly=cookie['httpOnly'], path=cookie['path'])
+        return resp
+    return result['response'], 400
+
+
+# Retrieves a given user in path
+@app.route('/user/<email_address>', methods=['GET'])
+@use_kwargs(LoginSchema)
+@marshal_with(LoginResponseSchema, code=200)
+@marshal_with(ErrorSchema, code=400)
+def user_handle(**kwargs):
+    if 'data' in request.json:
+        user_object = User(request.json['data'])
+        result = user_object.login()
+    else:
+        return 'Poorly formed body', 400
+
+    if result['statusCode'] == 200:
         resp = make_response(result['response'])
         cookie = result['cookie']
         resp.set_cookie(cookie['name'],
@@ -40,6 +58,7 @@ def login(**kwargs):
 # Perform auto-documentation
 docs = FlaskApiSpec(app)
 docs.register(login)
+docs.register(user_handle)
 
 
 if __name__ == '__main__':
