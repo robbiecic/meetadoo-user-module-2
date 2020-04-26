@@ -19,7 +19,7 @@ def hello_world():
 @use_kwargs(LoginSchema)
 @marshal_with(LoginResponseSchema, code=200)
 @marshal_with(ErrorSchema, code=400)
-def login():
+def login(**kwargs):
     if 'data' in request.json:
         user_object = User(request.json['data'])
         result = user_object.login()
@@ -27,9 +27,9 @@ def login():
         return 'Poorly formed body', 400
 
     if result['statusCode'] == 200:
-        response = LoginResponseSchema(
-            result['response']['firsname'], result['response']['surname'], result['response']['email'])
-        resp = make_response(response)
+        # response = LoginResponseSchema(
+        #     firstname=result['response']['firstname'], surname=result['response']['surname'], email=result['response']['email'])
+        resp = make_response(result['response'])
         cookie = result['cookie']
         resp.set_cookie(cookie['name'],
                         cookie['value'], domain=cookie['domain'], expires=cookie['expires'], secure=cookie['secure'], httponly=cookie['httpOnly'], path=cookie['path'])
@@ -40,7 +40,7 @@ def login():
 # Perform auto-documentation
 docs = FlaskApiSpec(app)
 docs.register(login)
-print(docs)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

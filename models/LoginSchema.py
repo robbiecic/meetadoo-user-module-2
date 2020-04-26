@@ -2,11 +2,13 @@ from webargs import fields, validate
 from marshmallow import Schema
 
 
-LoginSchema = {
-    "data": fields.Nested({"email": fields.Str(required=True),
-                           "password": fields.Str(required=True, validate=validate.Length(min=6))})
+class LoginChildSchema(Schema):
+    email = fields.Email()
+    password = fields.String()
 
-}
+
+class LoginSchema(Schema):
+    data = fields.Nested(LoginChildSchema)
 
 
 class LoginResponseSchema(Schema):

@@ -8,3 +8,7 @@ Build a cloud-agnostic API with python to replace the AWS-native API already run
 - docker run -d -p 5000:5000 meetadoo-user-api
 - docker container ls
 - docker stop <container id>
+
+## api
+
+/swagger-ui
