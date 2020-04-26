@@ -1,5 +1,8 @@
 import json
-import datetime
+import jwt
+from datetime import datetime
+from datetime import timedelta
+import bcrypt
 from classes.aws import AWS
 
 
@@ -25,7 +28,7 @@ class User:
         # Check if user exists first
         user_details = self.__return_user(email)
         if user_details == 0:
-            return self.custom_400('ERROR: User not found')
+            return self.__custom_400('ERROR: User not found')
         else:
             hashed_password = user_details['password']['B']
             # Check if password matches
@@ -37,10 +40,10 @@ class User:
                 return_body["firstname"] = user_details['first_name']['S']
                 return_body["surname"] = user_details['surname']['S']
                 return_body["email"] = email
-                cookie_string = self.set_cookie(encoded_jwt)
+                cookie_string = self.__set_cookie(encoded_jwt)
                 return {'cookie': cookie_string, 'statusCode': 200, 'response': str(return_body)}
             else:
-                return self.custom_400('PASSWORD DID NOT MATCH')
+                return self.__custom_400('PASSWORD DID NOT MATCH')
 
     #########################################################################################################
     # Private method declarations
@@ -56,7 +59,7 @@ class User:
         except:
             return 0
 
-    def __set_cookie(jwt):
+    def __set_cookie(self, jwt):
         # Delete the cookie after 1 day
         expires = (datetime.utcnow() +
                    timedelta(seconds=60 * 60 * 24)).strftime("%a, %d %b %Y %H:%MM:%S GMT")

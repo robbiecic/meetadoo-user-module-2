@@ -2,6 +2,7 @@ import unittest
 import json
 import requests
 from index import app
+import warnings
 
 # Import test data
 with open('tests/test-data/login.json') as json_file:
@@ -19,6 +20,8 @@ class E2ETestCase(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['DEBUG'] = False
         self.app = app.test_client()
+        warnings.filterwarnings(
+            "ignore", category=ResourceWarning, message="unclosed.*<ssl.SSLSocket.*>")
 
     # Remove Test User
     @classmethod
@@ -30,7 +33,7 @@ class E2ETestCase(unittest.TestCase):
         # sending get request and saving the response as response object
         response = self.app.post(url + "/login", data=json.dumps(login_data['data']), headers={
                                  'content-type': 'application/json'})
-        print(response)
+        self.assertEqual(response.status_code, 200)
 
 # End of E2ETestCase --------------------------------------------------------------------------------------------------------------------
 
