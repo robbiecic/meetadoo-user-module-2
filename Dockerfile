@@ -5,9 +5,7 @@ RUN apt-get update -y && \
 
 WORKDIR /app
 
-RUN pip3 install Flask
-RUN pip3 install boto3
-RUN pip3 install bcrypt
+RUN pip3 install Flask boto3 bcrypt pyjwt flask-apispec webargs
 
 COPY . /app
 
