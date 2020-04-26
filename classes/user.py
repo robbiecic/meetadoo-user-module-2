@@ -40,8 +40,8 @@ class User:
                 return_body["firstname"] = user_details['first_name']['S']
                 return_body["surname"] = user_details['surname']['S']
                 return_body["email"] = email
-                cookie_string = self.__set_cookie(encoded_jwt)
-                return {'cookie': cookie_string, 'statusCode': 200, 'response': str(return_body)}
+                cookie = self.__set_cookie2(encoded_jwt)
+                return {'cookie': cookie, 'statusCode': 200, 'response': str(return_body)}
             else:
                 return self.__custom_400('PASSWORD DID NOT MATCH')
 
@@ -58,6 +58,20 @@ class User:
             return user
         except:
             return 0
+
+    def __set_cookie2(self, jwt):
+        # Delete the cookie after 1 day
+        expires = (datetime.utcnow() +
+                   timedelta(seconds=60 * 60 * 24)).strftime("%a, %d %b %Y %H:%MM:%S GMT")
+        cookie_object = {}
+        cookie_object['name'] = 'jwt'
+        cookie_object['value'] = str(jwt)
+        cookie_object['expires'] = str(expires)
+        cookie_object['path'] = '/'
+        cookie_object['domain'] = 'www.meetadoo.com'
+        cookie_object['httpOnly'] = 'true'
+        cookie_object['secure'] = 'true'
+        return cookie_object
 
     def __set_cookie(self, jwt):
         # Delete the cookie after 1 day

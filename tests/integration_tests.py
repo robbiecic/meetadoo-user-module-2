@@ -7,6 +7,8 @@ import warnings
 # Import test data
 with open('tests/test-data/login.json') as json_file:
     login_data = json.load(json_file)
+with open('tests/test-data/login_bad.json') as json_file:
+    login_bad_data = json.load(json_file)
 
 # Set URL where API calls are made
 url = "http://localhost:5000"
@@ -28,12 +30,19 @@ class E2ETestCase(unittest.TestCase):
     def tearDownClass(cls):
         pass
 
-    # Create test user
+    # Test logging in
     def test_login(self):
         # sending get request and saving the response as response object
-        response = self.app.post(url + "/login", data=json.dumps(login_data['data']), headers={
+        response = self.app.post(url + "/login", data=json.dumps(login_data), headers={
                                  'content-type': 'application/json'})
         self.assertEqual(response.status_code, 200)
+
+    # Test failed log in
+    def test_failed_login(self):
+        # sending get request and saving the response as response object
+        response = self.app.post(url + "/login", data=json.dumps(login_bad_data), headers={
+                                 'content-type': 'application/json'})
+        self.assertEqual(response.status_code, 400)
 
 # End of E2ETestCase --------------------------------------------------------------------------------------------------------------------
 
@@ -41,6 +50,7 @@ class E2ETestCase(unittest.TestCase):
 def suite():  # Need to define a suite as setUp and tearDown are called per test otherwise
     suite = unittest.TestSuite()
     suite.addTest(E2ETestCase('login'))
+    suite.addTest(E2ETestCase('test_failed_login'))
     return suite
 
 
