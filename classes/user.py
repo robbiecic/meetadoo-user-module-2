@@ -45,6 +45,17 @@ class User:
             else:
                 return self.__custom_400('PASSWORD DID NOT MATCH')
 
+    def get_user(self):
+        user = self.__return_user(self.body['email'])
+        if user != 0:
+            return_body = {}
+            return_body["firstname"] = user['first_name']['S']
+            return_body["surname"] = user['surname']['S']
+            return_body["email"] = self.body['email']
+            return {'statusCode': 200, 'response': return_body}
+        else:
+            return self.__custom_400('No User found')
+
     #########################################################################################################
     # Private method declarations
     #########################################################################################################
