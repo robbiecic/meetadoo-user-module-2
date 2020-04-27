@@ -1,10 +1,10 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 import json
 from flask_apispec import FlaskApiSpec, use_kwargs, marshal_with
 from classes.user import User
 from models.LoginSchema import LoginSchema, LoginResponseSchema
 from models.ErrorSchema import ErrorSchema
-
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -34,8 +34,30 @@ def login(**kwargs):
     return result['response'], 400
 
 
+##################################################################################################
+# Start protected routes
+##################################################################################################
+def token_required(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        token = None
+        if 'x-access-tokens' in request.headers:
+            token = request.headers['x-access-tokens']
+        if not token:
+            return jsonify({'message': 'a valid token is missing'})
+        try:
+            with open('config.json') as json_file:
+                config_data = json.load(json_file)
+            data = jwt.decode(token, config_data['jwt_encode'])
+            current_user = 'Test'
+        except:
+            return jsonify({'message': 'token is invalid'})
+        return f(current_user, *args, **kwargs)
+    return decorator
+
 # Retrieves a given user in path
 @app.route('/user/<email_address>', methods=['GET'])
+@token_required
 @marshal_with(LoginResponseSchema, code=200)
 @marshal_with(ErrorSchema, code=400)
 def user_handle(email_address):
