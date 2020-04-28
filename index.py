@@ -26,11 +26,11 @@ def login(**kwargs):
         return 'Poorly formed body', 400
 
     if result['statusCode'] == 200:
-        result['response']['auth-token'] = cookie['value']
         resp = make_response(result['response'])
         cookie = result['cookie']
         resp.set_cookie(cookie['name'],
                         cookie['value'], domain=cookie['domain'], expires=cookie['expires'], secure=cookie['secure'], httponly=cookie['httpOnly'], path=cookie['path'])
+        resp.headers['x-access-tokens'] = cookie['value']
         return resp
     return result['response'], 400
 
