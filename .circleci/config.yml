@@ -12,7 +12,7 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: ./tests/ test
+          command: python3 -m unittest ./tests/
           name: Test
 
 workflows:
