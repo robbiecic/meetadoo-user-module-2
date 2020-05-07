@@ -1,6 +1,6 @@
-Flask:latest
-boto3:latest
-bcrypt:latest
-pyjwt:latest
-flask-apispec:latest
-webargs>=5.0.0,<6.0.0
+Flask
+boto3
+bcrypt
+pyjwt
+flask-apispec
+webargs>5.0.0,<6.0.0
