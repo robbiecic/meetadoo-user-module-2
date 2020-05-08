@@ -27,16 +27,17 @@ jobs:
       - run:
           command: python3 -m unittest discover tests/
   Build-Push-Image-Docker:
-    description: Build and push image to Google Container Registry
-    steps:
-      - checkout
-      - gcr/gcr-auth
-      - gcr/build-image:
-          image: meetadoo-user-module
-          tag: "v2" #Change version number e.g to 'v3' when updating application
-      - gcr/push-image:
-          image: meetadoo-user-module
-          tag: "v2" #Change version number e.g to 'v3' when updating application
+    docker:
+      description: Build and push image to Google Container Registry
+      steps:
+        - checkout
+        - gcr/gcr-auth
+        - gcr/build-image:
+            image: meetadoo-user-module
+            tag: "v1" #Change version number e.g to 'v3' when updating application
+        - gcr/push-image:
+            image: meetadoo-user-module
+            tag: "v1" #Change version number e.g to 'v3' when updating application
 
 workflows:
   main:
