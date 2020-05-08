@@ -30,7 +30,7 @@ jobs:
           name: Build and Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ./deployment.sh
+              .circleci/deployment.sh
             fi
 
 workflows:
