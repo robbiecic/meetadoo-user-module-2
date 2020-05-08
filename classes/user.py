@@ -4,15 +4,13 @@ from datetime import datetime
 from datetime import timedelta
 import bcrypt
 from classes.aws import AWS
+import os
 
 
 class User:
 
     def __init__(self, body):
         self.body = body
-        # Load config settings into self.data
-        with open('config.json') as json_file:
-            self.data = json.load(json_file)
         # Create dynamoDB resource
         aws_object = AWS()
         self.dynamodb_client = aws_object.create_dynamodb_client()
@@ -32,10 +30,10 @@ class User:
         else:
             hashed_password = user_details['password']['B']
             # Check if password matches
-            if bcrypt.checkpw(password + self.data['hash_secret'].encode('utf-8'), hashed_password):
+            if bcrypt.checkpw(password + os.environ['HASH_SECRET'].encode('utf-8'), hashed_password):
                 expiry_time = datetime.utcnow() + timedelta(seconds=60 * 30)
                 encoded_jwt = jwt.encode(
-                    {'email': email, 'exp': expiry_time}, self.data['jwt_encode'], algorithm='HS256').decode('utf-8')
+                    {'email': email, 'exp': expiry_time}, os.environ['JWT_ENCODE'], algorithm='HS256').decode('utf-8')
                 return_body = {}
                 return_body["firstname"] = user_details['first_name']['S']
                 return_body["surname"] = user_details['surname']['S']

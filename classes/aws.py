@@ -1,17 +1,14 @@
 import boto3
 import json
+import os
 
 
 class AWS:
 
     def __init__(self):
-        # Load config settings into self.data
-        with open('config.json') as json_file:
-            self.data = json.load(json_file)
-
-        self.aws_region_name = self.data['aws_region_name']
-        self.aws_access_key_id = self.data['aws_access_key_id']
-        self.aws_secret_access_key = self.data['aws_secret_access_key']
+        self.aws_region_name = os.environ['AWS_REGION_NAME']
+        self.aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
+        self.aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 
     def create_ses_client(self):
         return boto3.client('ses', region_name=self.aws_region_name, aws_access_key_id=self.aws_access_key_id,

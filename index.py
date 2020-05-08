@@ -5,6 +5,7 @@ from classes.user import User
 from models.LoginSchema import LoginSchema, LoginResponseSchema
 from models.ErrorSchema import ErrorSchema
 from functools import wraps
+import os
 
 app = Flask(__name__)
 
@@ -47,9 +48,7 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'a valid token is missing'})
         try:
-            with open('config.json') as json_file:
-                config_data = json.load(json_file)
-            data = jwt.decode(token, config_data['jwt_encode'])
+            data = jwt.decode(token, os.environ['JWT_ENCODE'])
             current_user = 'Test'
         except:
             return jsonify({'message': 'token is invalid'})
