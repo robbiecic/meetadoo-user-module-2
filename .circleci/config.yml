@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: circleci/python:3.6
         environment:
+          PIPENV_VENV_IN_PROJECT: true
           HASH_SECRET: $HASH_SECRET
           JWT_ENCODE: $JWT_ENCODE
           AWS_REGION_NAME: $AWS_REGION_NAME
@@ -22,7 +23,6 @@ jobs:
           paths:
             - "venv"
       - run:
-          name: Running tests
           command: python3 -m unittest discover tests/
 
 workflows:
