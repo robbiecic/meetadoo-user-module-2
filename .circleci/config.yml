@@ -30,6 +30,7 @@ jobs:
   build-and-deploy:
     machine: true
     steps:
+      - checkout
       - run:
           name: Build and Deploy
           command: |
