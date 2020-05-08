@@ -4,7 +4,7 @@ orbs:
   gcr: circleci/gcp-gcr@0.0.2
 
 jobs:
-  build-test-deploy:
+  build-and-test:
     docker:
       - image: circleci/python:3.6
         environment:
@@ -26,14 +26,19 @@ jobs:
             - "venv"
       - run:
           command: python3 -m unittest discover tests/
+
+  build-and-deploy:
+    machine: true
+    steps:
       - run:
           name: Build and Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              sh .circleci/deployment.sh
+                sh .circleci/deployment.sh
             fi
 
 workflows:
   main:
     jobs:
-      - build-test-deploy
+      - build-and-test
+      - build-and-deploy
