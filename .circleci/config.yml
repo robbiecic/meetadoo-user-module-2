@@ -34,11 +34,13 @@ jobs:
           name: Build and Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                sh .circleci/deployment.sh
+                sh ./deployment.sh
             fi
 
 workflows:
   main:
     jobs:
       - build-and-test
-      - build-and-deploy
+      - build-and-deploy:
+          requires:
+            - build-and-test
