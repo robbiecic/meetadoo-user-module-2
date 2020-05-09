@@ -4,7 +4,7 @@ set -e
 
 # Build and tag docker image
 echo "Building docker image... \n"
-docker build --rm=false -t gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:$CIRCLE_SHA1 -t .
+docker build --rm=false -t gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:$CIRCLE_SHA1 .
 
 # Pull gcloud credentials from environmental variable
 echo "Exporting environment variable to json file... \n"
