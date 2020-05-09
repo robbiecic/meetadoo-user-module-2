@@ -4,28 +4,28 @@ orbs:
   gcr: circleci/gcp-gcr@0.0.2
 
 jobs:
-  build-and-test:
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
-          HASH_SECRET: $HASH_SECRET
-          JWT_ENCODE: $JWT_ENCODE
-          AWS_REGION_NAME: $AWS_REGION_NAME
-          AWS_ACCESS_KEY_ID=: $AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          command: pip install -r requirements.txt
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv"
-      - run:
-          command: python3 -m unittest discover tests/
+  # build-and-test:
+  #   docker:
+  #     - image: circleci/python:3.6
+  #       environment:
+  #         PIPENV_VENV_IN_PROJECT: true
+  #         HASH_SECRET: $HASH_SECRET
+  #         JWT_ENCODE: $JWT_ENCODE
+  #         AWS_REGION_NAME: $AWS_REGION_NAME
+  #         AWS_ACCESS_KEY_ID=: $AWS_ACCESS_KEY_ID
+  #         AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+  #     - run:
+  #         command: pip install -r requirements.txt
+  #     - save_cache:
+  #         key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+  #         paths:
+  #           - "venv"
+  #     - run:
+  #         command: python3 -m unittest discover tests/
 
   build-and-deploy:
     machine: true
