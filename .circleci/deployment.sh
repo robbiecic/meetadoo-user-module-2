@@ -3,7 +3,7 @@
 set -e
 
 # Connec to gcloud
-.circleci/gcloud.sh
+sh .circleci/gcloud.sh
 
 # Push docker to gcloud container registry tagged by the Git Hash value
 echo "Ready to deploy to GKE ... "
