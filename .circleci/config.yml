@@ -27,12 +27,23 @@ jobs:
       - run:
           command: python3 -m unittest discover tests/
 
-  build-and-deploy:
+  build-and-upload:
     machine: true
     steps:
       - checkout
       - run:
-          name: Build and Deploy
+          name: Build and upload container
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                sh .circleci/container.sh
+            fi
+
+  deploy:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Deploy container to GKE
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 sh .circleci/deployment.sh
@@ -42,6 +53,9 @@ workflows:
   main:
     jobs:
       - build-and-test
-      - build-and-deploy:
+      - build-and-upload:
           requires:
             - build-and-test
+      - deploy:
+          requires:
+            - build-and-deploy
