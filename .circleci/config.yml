@@ -58,4 +58,4 @@ workflows:
             - build-and-test
       - deploy:
           requires:
-            - build-and-deploy
+            - build-and-upload
