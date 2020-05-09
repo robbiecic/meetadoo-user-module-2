@@ -7,7 +7,7 @@ echo "Building docker image... \n"
 docker build --rm=false -t gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:$CIRCLE_SHA1 .
 
 # Connec to gcloud
-./gcloush.sh
+gcloud.sh
 
 # Push docker to gcloud container registry tagged by the Git Hash value
 echo "Pushing docker image to Google Cloud Container Registry... \n"
