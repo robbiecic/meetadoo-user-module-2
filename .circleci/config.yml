@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   gcr: circleci/gcp-gcr@0.0.2
+  gcp-gke: circleci/gcp-gke@0.1.0
 
 jobs:
   # build-and-test:
@@ -41,7 +42,6 @@ jobs:
   deploy:
     machine: true
     steps:
-      - checkout
       - run:
           name: Deploy container to GKE
           command: |

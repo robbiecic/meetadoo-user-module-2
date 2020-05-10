@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: meetadoo-user-api
+  name: meetadoo-user-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: meetadoo-user-api
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: meetadoo-user-api
+    spec:
+      containers:
+        - image: meetadoo-user-api:latest
+          name: meetadoo-user-api
+          env:
+            - name: EXAMPLE_ENV_VARIABLE
+              value: "example"
+          imagePullPolicy: Never
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.05"
+            limits:
+              memory: "756Mi"
+              cpu: "0.1"
+          ports:
+            - containerPort: 5000
+status: {}
