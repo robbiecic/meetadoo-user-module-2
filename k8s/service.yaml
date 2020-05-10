@@ -6,7 +6,7 @@ metadata:
     app: meetadoo-user-api
 spec:
   ports:
-    - port: 5001
+    - port: 80
       targetPort: 5000
   selector:
     app: meetadoo-user-api
