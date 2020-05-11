@@ -32,12 +32,12 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run:
-          name: Build and upload container
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                sh .circleci/container.sh
-            fi
+      # - run:
+      #     name: Build and upload container
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
+      #           sh .circleci/container.sh
+      #       fi
       - run:
           name: Deploy container to GKE
           command: |
