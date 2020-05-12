@@ -18,8 +18,9 @@ kubectl config current-context
 kubectl apply --validate=true --dry-run=true -f k8s/
 
 # Apply all manifests
-kubectl apply --validate=true -f k8s/
+# kubectl apply --validate=true -f k8s/
 
+echo '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"}]}}}}'
 
-# kubectl create deployment hello-web --image=gcr.io/${PROJECT_ID}/hello-app:v1
-# kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080
+ # The K8s deployment intelligently upgrades the cluster by shutting down old containers and starting up-to-date ones.
+kubectl patch deployment meetadoo-user-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}""':'"$CIRCLE_SHA1"'"}]}}}}'
