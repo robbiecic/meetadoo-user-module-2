@@ -10,7 +10,7 @@ echo "Ready to deploy to GKE ... "
 
 
 # Install kubectl command line
-gcloud components update
+sudo gcloud components update
  
 # Generate kubeconfig to access cluster
 gcloud container clusters get-credentials user-api-cluster --zone=us-central1-c
