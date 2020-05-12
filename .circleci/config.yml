@@ -56,8 +56,6 @@ workflows:
     jobs:
       # - build-and-test
       - build-and-upload
-      # requires:
-      #   - build-and-test
       - deploy-to-gke:
-        requires:
-          - build-and-upload
+          requires:
+            - build-and-upload
