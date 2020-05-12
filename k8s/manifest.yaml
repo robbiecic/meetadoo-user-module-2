@@ -6,7 +6,7 @@ metadata:
     app: meetadoo-user-api
   name: meetadoo-user-api
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: meetadoo-user-api
@@ -26,11 +26,11 @@ spec:
           imagePullPolicy: Never
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "0.05"
+              memory: "3GB"
+              cpu: "3"
             limits:
-              memory: "756Mi"
-              cpu: "0.1"
+              memory: "3GB"
+              cpu: "3"
           ports:
             - containerPort: 5000
 status: {}
