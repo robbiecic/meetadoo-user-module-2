@@ -17,10 +17,8 @@ kubectl config current-context
 # Dry run applying kubernetes settings all manifests in the k8s folder
 kubectl apply --validate=true --dry-run=true -f k8s/
 
-# Apply all manifests
-# kubectl apply --validate=true -f k8s/
+# Apply all manifests - not sure if this is need for the deployment or not anymore, so will change to the service only
+kubectl apply --validate=true -f k8s/service.yaml
 
-echo '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"}]}}}}'
-
- # The K8s deployment intelligently upgrades the cluster by shutting down old containers and starting up-to-date ones.
-kubectl patch deployment meetadoo-user-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}""':'"$CIRCLE_SHA1"'"}]}}}}'
+# Need to update the k8s manifest so it deploys the container image for this particular commit
+kubectl patch deployment meetadoo-user-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"}]}}}}'
