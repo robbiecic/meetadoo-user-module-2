@@ -28,9 +28,8 @@ jobs:
   #     - run:
   #         command: python3 -m unittest discover tests/
 
-  build-and-deploy:
-    docker:
-      - image: google/cloud-sdk
+  build-and-upload:
+    machine: true
     steps:
       - checkout
       - run:
@@ -39,6 +38,12 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 sh .circleci/container.sh
             fi
+
+  deploy-to-gke:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
       - run:
           name: Deploy container to GKE
           command: |
@@ -50,6 +55,9 @@ workflows:
   main:
     jobs:
       # - build-and-test
-      - build-and-deploy
+      - build-and-upload
       # requires:
       #   - build-and-test
+      - deploy-to-gke
+        requires:
+          - build-and-upload
