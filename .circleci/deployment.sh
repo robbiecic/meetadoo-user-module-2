@@ -9,7 +9,7 @@ sh .circleci/gcloud.sh
 echo "Ready to deploy to GKE ... "
 
 # Generate kubeconfig to access cluster
-gcloud container clusters get-credentials user-api-cluster
+gcloud container clusters get-credentials user-api-cluster --zone=us-central1-c
 
 # Check current context
 kubectl config current-context
