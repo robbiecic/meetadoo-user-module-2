@@ -29,7 +29,9 @@ jobs:
   #         command: python3 -m unittest discover tests/
 
   build-and-deploy:
-    machine: true
+    docker:
+      - image: google/cloud-sdk
+    # machine: true
     steps:
       - checkout
       # - run:
