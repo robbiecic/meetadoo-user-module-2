@@ -10,6 +10,8 @@ echo "Ready to deploy to GKE ... "
 
 
 # Install kubectl command line
+gcloud init
+gcloud auth login
 yes Y | gcloud components install kubectl
 
 # Generate kubeconfig to access cluster
