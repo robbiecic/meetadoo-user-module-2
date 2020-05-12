@@ -10,7 +10,9 @@ RUN pip3 install -r requirements.txt
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "index.py" ]
+# CMD [ "index.py" ]
+
+ENTRYPOINT python3 index.py
 
 # Flask runs on port 5000
 EXPOSE 5000
