@@ -23,7 +23,7 @@ spec:
           env:
             - name: EXAMPLE_ENV_VARIABLE
               value: "example"
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           resources:
             requests:
               memory: "1Gi"
