@@ -17,5 +17,9 @@ kubectl config current-context
 # Dry run applying kubernetes settings all manifests in the k8s folder
 kubectl apply --validate=true --dry-run=true -f k8s/
 
+# Apply all manifests
+kubectl apply --validate=true -f k8s/
+
+
 # kubectl create deployment hello-web --image=gcr.io/${PROJECT_ID}/hello-app:v1
 # kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080
