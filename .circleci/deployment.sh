@@ -8,6 +8,10 @@ sh .circleci/gcloud.sh
 # Push docker to gcloud container registry tagged by the Git Hash value
 echo "Ready to deploy to GKE ... "
 
+
+# Install kubectl command line
+gcloud components install kubectl
+
 # Generate kubeconfig to access cluster
 gcloud container clusters get-credentials user-api-cluster --zone=us-central1-c
 
