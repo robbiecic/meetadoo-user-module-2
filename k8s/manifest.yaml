@@ -24,13 +24,13 @@ spec:
             - name: EXAMPLE_ENV_VARIABLE
               value: "example"
           # imagePullPolicy: Never
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "3"
-            limits:
-              memory: "3Gi"
-              cpu: "3"
+          # resources:
+          #   requests:
+          #     memory: "1Gi"
+          #     cpu: "3"
+          #   limits:
+          #     memory: "3Gi"
+          #     cpu: "3"
           ports:
             - containerPort: 5000
 status: {}
