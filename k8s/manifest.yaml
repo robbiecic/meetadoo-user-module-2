@@ -18,7 +18,7 @@ spec:
         app: meetadoo-user-api
     spec:
       containers:
-        - image: meetadoo-user-api:latest
+        - image: gcr.io/meetadoo/meetadoo-user-api:latest
           name: meetadoo-user-api
           env:
             - name: EXAMPLE_ENV_VARIABLE
