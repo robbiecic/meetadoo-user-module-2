@@ -39,23 +39,23 @@ jobs:
                 sh .circleci/container.sh
             fi
 
-  deploy-to-gke:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - run:
-          name: Deploy container to GKE
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                sh .circleci/deployment.sh
-            fi
+  # deploy-to-gke:
+  #   docker:
+  #     - image: google/cloud-sdk
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Deploy container to GKE
+  #         command: |
+  #           if [ "${CIRCLE_BRANCH}" == "master" ]; then
+  #               sh .circleci/deployment.sh
+  #           fi
 
 workflows:
   main:
     jobs:
       # - build-and-test
       - build-and-upload
-      - deploy-to-gke:
-          requires:
-            - build-and-upload
+      # - deploy-to-gke:
+      #     requires:
+      #       - build-and-upload
