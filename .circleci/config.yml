@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy container to GKE
+          name: Deploy container to GCP
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 sh .circleci/deployment.sh
