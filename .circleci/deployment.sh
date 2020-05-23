@@ -6,19 +6,12 @@ set -e
 sh .circleci/gcloud.sh
 
 # Push docker to gcloud container registry tagged by the Git Hash value
-echo "Ready to deploy to GKE ... "
+echo "Ready to deploy to GCP ... "
 
-# Generate kubeconfig to access cluster
-gcloud container clusters get-credentials user-api-cluster --zone=us-central1-c
+# Create compute instance from the image correspdonding to this build
+gcloud compute instances create-with-container meetadoo-user-api-instance \
+     --container-image 'gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"'
 
-# Check current context
-kubectl config current-context
-
-# Dry run applying kubernetes settings all manifests in the k8s folder
-kubectl apply --validate=true --dry-run=true -f k8s/
-
-# Apply all manifests - not sure if this is need for the deployment or not anymore, so will change to the service only
-kubectl apply --validate=true -f k8s/service.yaml
-
-# Need to update the k8s manifest so it deploys the container image for this particular commit
-kubectl patch deployment meetadoo-user-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"meetadoo-user-api","image":"gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"}]}}}}'
+# Set machine type/size. Setting to micro as it's on free tier for now....
+gcloud compute instances set-machine-type meetadoo-user-api-instance \
+    --zone us-central1-a --machine-type f1-micro
