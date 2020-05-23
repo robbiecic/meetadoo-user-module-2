@@ -16,6 +16,8 @@ echo "Ready to deploy to GCP ... "
 gcloud compute instances update-container meetadoo-user-api-instance \
     --container-image 'gcr.io/meetadoo/'"${IMAGE_NAME}"':'"$CIRCLE_SHA1"'"'
 
-# Set machine type/size. Setting to micro as it's on free tier for now....
-gcloud compute instances set-machine-type meetadoo-user-api-instance \
-    --zone ${GOOGLE_COMPUTE_ZONE} --machine-type f1-micro
+# To change machine type, run these commands
+# gcloud compute instances stop meetadoo-user-api-instance
+# gcloud compute instances set-machine-type meetadoo-user-api-instance \
+#     --zone ${GOOGLE_COMPUTE_ZONE} --machine-type f1-micro
+# gcloud compute instances start meetadoo-user-api-instance
