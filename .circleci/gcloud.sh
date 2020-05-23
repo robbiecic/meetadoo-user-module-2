@@ -12,4 +12,5 @@ sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' ${HOME}/gcloud-service-key1.json > ${HOME}/
 echo "\n Attempting to authenticated to gcloud ... \n"
 gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
 gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+gcloud --quiet config set compute/region ${GOOGLE_COMPUTE_REGION}
 gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}

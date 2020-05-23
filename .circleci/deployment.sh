@@ -14,4 +14,4 @@ gcloud compute instances create-with-container meetadoo-user-api-instance \
 
 # Set machine type/size. Setting to micro as it's on free tier for now....
 gcloud compute instances set-machine-type meetadoo-user-api-instance \
-    --zone us-central1-a --machine-type f1-micro
+    --zone ${GOOGLE_COMPUTE_ZONE} --machine-type f1-micro
